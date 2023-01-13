@@ -64,6 +64,6 @@ print(len(X))
 regr = RandomForestRegressor(n_estimators=20000, min_samples_leaf=3, oob_score=True)
 regr.fit(X, Y)
 importances=regr.feature_importances_
-print('###########随机森林重要性#######################')
+print('###########Random Forest Importance#######################')
 for temp in importances:
     print(temp) # RandomForest importances
