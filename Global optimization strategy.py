@@ -5,14 +5,14 @@ Created on Wed Jun 23 14:18:03 2021
 @author: Lenovo
 """
 from tqdm import tqdm
-import numpy as np  # numpy库
+import numpy as np  
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LinearRegression
 from sklearn import neighbors
 from sklearn.svm import SVR
-from sklearn.tree import DecisionTreeRegressor # 决策树回归
-from sklearn.ensemble import RandomForestRegressor # 随机森林回归
+from sklearn.tree import DecisionTreeRegressor 
+from sklearn.ensemble import RandomForestRegressor 
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import explained_variance_score, mean_squared_error, r2_score
@@ -25,7 +25,7 @@ from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 from sklearn.neural_network import MLPRegressor
 from sklearn.utils import resample
 
-# 数据准备
+# data upload
 data = pd.read_excel("C:\\Users\YJZ\Desktop\\YHYJZ.xlsx")
 x1, y1 = data.iloc[:,0:5], data.iloc[:,5]
 
@@ -40,9 +40,9 @@ for i in range(0,101,5):#A
                         llist.append(data)
 space = np.array(llist)
 spacelen = len(space)
-print('成分个数：%d' %spacelen) #10626
+print('Number of components：%d' %spacelen) #10626
 
-# 回归模型
+# Regression model
 def Model(k1, data_predict):
     param_grid = [{'n_estimators': [10,100],'min_samples_split': [2,5,10,20],'min_samples_leaf': [1,5,10]}]
     model = RandomForestRegressor(random_state=0)
