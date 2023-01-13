@@ -5,14 +5,14 @@ Created on Wed Jun 23 14:05:52 2021
 @author: Lenovo
 """
 from tqdm import tqdm
-import numpy as np  # numpy库
+import numpy as np  # numpy
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LinearRegression
 from sklearn import neighbors
 from sklearn.svm import SVR
-from sklearn.tree import DecisionTreeRegressor # 决策树回归
-from sklearn.ensemble import RandomForestRegressor # 随机森林回归
+from sklearn.tree import DecisionTreeRegressor 
+from sklearn.ensemble import RandomForestRegressor 
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import explained_variance_score, mean_squared_error, r2_score
@@ -22,38 +22,38 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
 from sklearn.neural_network import MLPRegressor
-# 数据准备
+# data upload
 data = pd.read_excel("C:\\Users\YJZ\Desktop\\YHYJZ.xlsx")
 x1, y1 = data.iloc[:,1:-1], data.iloc[:,-1]
-# 训练回归模型
-##### 1、 支持向量机回归
+# Training regression models
+##### Support vector machine regression
 k_range = np.arange(100,1001,100)
 k2_range = np.arange(0.01,0.11,0.01)
 param_grid_svr = dict(C = k_range, gamma = k2_range)
 model_svr = SVR(kernel='rbf')
-##### 2、线性回归
+##### Linear regression
 param_grid_lr = [{}]
 model_lr = LinearRegression()
-##### 3、 自适应集成回归
+##### Adaptive Integration Regression
 param_grid_abr = [{'learning_rate': [0.1,0.5,1,10], 'n_estimators': [10,100]}] 
-model_abr = AdaBoostRegressor(random_state=0)  # 建立自适应增强回归模型对象
-##### 4、 近邻回归
+model_abr = AdaBoostRegressor(random_state=0)
+##### Near Neighbor Regression
 param_grid_knr = [{'n_neighbors': [1,2,3,4,5],'leaf_size': [1,5,10,20,30,40,50,60,70,80,90,100]}]
-model_knr = neighbors.KNeighborsRegressor(weights='distance')  # k近邻回归
-##### 5、 决策树回归
+model_knr = neighbors.KNeighborsRegressor(weights='distance')
+##### Decision tree regression
 param_grid_dtr = [{'min_samples_split': [2,3,4,5,6,7,8,9],'min_samples_leaf': [1,5,10,20,30,40,50,60,70,80,90,100]}]
-model_dtr = DecisionTreeRegressor(max_depth=7,random_state=0) # 决策树回归
-#### 6、 随机森林回归
+model_dtr = DecisionTreeRegressor(max_depth=7,random_state=0)
+#### Random forest regression
 param_grid_rfr = [{'n_estimators': [10,100],'min_samples_split': [2,5,10,20],'min_samples_leaf': [1,5,10]}]
 model_rfr = RandomForestRegressor(random_state=0)
-#### 7、 梯度提升回归
+#### Gradient Boost Regression
 param_grid_gbr = [{'learning_rate': [0.1,0.5,1,10], 'n_estimators': [10,100], 'max_depth': [1,3,5,10,20],
                    'min_samples_split': [2,5,10,20], 'min_samples_leaf': [1,5,10]}]
-##### 8、 高斯过程回归
+##### Gaussian process regression
 param_grid_gpr = [{'alpha': [1e-11,1e-10,1e-9], 'n_restarts_optimizer': [5,10,20,50]}]
 kernel = C(1.0, (1e-3, 1e3)) * RBF(10, (1e-2, 1e2))
 model_gpr = GaussianProcessRegressor(kernel=kernel, random_state=0)
-#### 9、 多项式回归
+#### Polynomial regression
 # param_grid_poly = [{}]
 # poly = PolynomialFeatures(2)
 # x1=poly.fit_transform(x1)
@@ -61,10 +61,10 @@ model_gpr = GaussianProcessRegressor(kernel=kernel, random_state=0)
 # x3=poly.fit_transform(x3)
 # x4=poly.fit_transform(x4)
 # model_poly = LinearRegression()
-##### 10、Xgboost回归
+##### Xgboost regression
 # param_grid_Xg = [{'learning_rate': [0.1,0.5,1,10], 'n_estimators': [10,100], 'max_depth': [1,3,5,10,20]}]
 # model_Xg = xgb.XGBRegressor(random_state=0)
-##### 11、人工神经网络回归
+##### Artificial neural network regression
 param_grid_ANNmlp = [{'alpha': [0.0001,0.001,0.01], 'learning_rate_init': [0.001,0.01,0.1],
                       'max_iter': [5000],'tol': [0.001,0.01]}] 
 model_ANNmlp = MLPRegressor(random_state=0)
@@ -93,7 +93,7 @@ y_plot = np.arange(2)
 tmp_list = []
 # temp = []
 z = 0
-for model, param in zip(model_dic, param_grid):  # 读出每个回归模型对象
+for model, param in zip(model_dic, param_grid):  # Read out each regression model object
     r2_train, r2_test, mse_train, mse_test = np.arange(1),np.arange(1),np.arange(1),np.arange(1)
     cvs = np.arange(1)
     coef = np.arange(9)
@@ -110,13 +110,13 @@ for model, param in zip(model_dic, param_grid):  # 读出每个回归模型对�
         aa = cross_val_score(modell, X_train, y_train, cv=10, scoring='neg_mean_squared_error')
         cvs = np.row_stack((cvs, np.mean(aa)))
         
-        # 线性模型拟合权重参数
+        # Linear model fitting weights parameters
         # parameters1 = modell.coef_
         # parameters2 = modell.intercept_
         # coef = np.column_stack((coef, parameters1))
         # cintercept = np.column_stack((cintercept, parameters2))
 
-        # scores_train = cross_val_score(modell, X_train, y_train,cv=5,scoring='neg_mean_squared_error') #训练集交叉验证
+        # scores_train = cross_val_score(modell, X_train, y_train,cv=5,scoring='neg_mean_squared_error') #Training set cross-validation
         y_pred = modell.predict(X_test)
         y_train_pred = modell.predict(X_train)
         
@@ -162,17 +162,17 @@ for model, param in zip(model_dic, param_grid):  # 读出每个回归模型对�
     del mse__train
     del mse__test
     z += 1
-    print (70 * '-')  # 打印分隔线
+    print (70 * '-')  
     print('-- Mission %d Complete --' %z )
 
-# 模型效果指标评估
-# df1 = pd.DataFrame(cv_score_list,index=model_names)  # 建立交叉检验的数据框
+# Evaluation of model effectiveness indicators
+# df1 = pd.DataFrame(cv_score_list,index=model_names)  # Create data frames for cross-checking
 df2 = pd.DataFrame(tmp_list, index=model_names, columns=['trainMSEmean','trainMSEstd','trainR2mean','trainR2std','testMSEmean','testMSEstd','testR2mean','testR2std'])  # 建立回归指标的数据框
-#print (70 * '-')  # 打印分隔线
-#print ('cross validation result:')  # 打印输出标题
-#print (df1)  # 打印输出交叉检验的数据框
-print (70 * '-')  # 打印分隔线
-print ('regression metrics:')  # 打印输出标题
-print (df2)  # 打印输出回归指标的数据框
-print (70 * '-')  # 打印分隔线
+#print (70 * '-')  
+#print ('cross validation result:')  
+#print (df1) 
+print (70 * '-')  
+print ('regression metrics:') 
+print (df2) 
+print (70 * '-') 
 
